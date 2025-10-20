@@ -1,5 +1,5 @@
 {
-  description = "Dev shell with R, Python, and a local flexplot package";
+  description = "Dev shell for Python 3.12";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   inputs.flake-utils.url = "github:numtide/flake-utils";
@@ -12,7 +12,7 @@
           config.allowUnfree = true;
         };
 
-        # Load your local package set from ./pkgs
+        # Load packages from ./pkgs
         myPkgs = import ./pkgs { inherit pkgs; };
       in {
         devShells.default = pkgs.mkShell {
@@ -20,98 +20,23 @@
 
           buildInputs =
             (with pkgs; [
-              # --- Core tools / system ---
-              R
+              # --- Core tools / system --- 
+              # Comment out if you dont want this
               vscodium
               positron-bin
-              quarto
-              texliveFull
-              pandoc
               nix-prefetch-git
-              cudaPackages.cudatoolkit
 
-              # Local R package from ./pkgs
-              myPkgs.flexplot
-              myPkgs.mlr3
-              myPkgs.mlr3verse
-              myPkgs.mlr3extralearners
-              myPkgs.savtools-py
-            ])
-            ++ (with pkgs.rPackages; [
-              # --- R: Authoring / Compatability ---
-              quarto
-              reticulate
-              languageserver
-
-              # --- R: Data import & wrangling ---
-              tidyverse
-              readxl
-              jsonlite
-              haven
-
-              # --- R: Databases ---
-              DBI
-              RSQLite
-              RMySQL
-
-              # --- R: Modeling & ML ---
-              tidymodels
-              xgboost
-              glmnet
-              caret
-              lme4
-              brms
-              tensorflow
-              keras
-              keras3
-              C50
-
-              # --- R: Resampling & utilities ---
-              rsample
-              groupdata2
-              cvms
-              caTools
-
-              # --- R: Visualization ---
-              ggplot2
-              plotly
-              patchwork
-              GGally
-              ggthemes
-              ggdark
-              DiagrammeR
-              DiagrammeRsvg
-              rsvg
-              rpivotTable
-              sjPlot
-
-              # --- R: Explainability ---
-              SHAPforxgboost
-              pdp
-
-              # --- R: Datasets & misc ---
-              nycflights13
-              sodium
-              styler
-              summarytools
             ])
             ++ (with pkgs.python312Packages; [
               # --- Python: Core data stack ---
               numpy
               pandas
               polars
-              pyarrow
+              arrow
 
               # --- Python: Visualization ---
               matplotlib
               seaborn
-
-              # --- Python: ML / DL ---
-              scikit-learn
-              tensorflow
-              keras
-              optuna
-              xgboost
 
               # --- Python: Notebook / tooling ---
               ipykernel
@@ -119,7 +44,8 @@
             ]);
 
           shellHook = ''
-            echo "✅ Environment is set up and ready to use."
+            export PYTHONPATH=${toString ./.}/src:$PYTHONPATH
+            echo " Environment is set up and ready to use. :D"
           '';
         };
       });
