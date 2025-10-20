@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "savtools-py"
+name = "savdocs-py"
 version = "0.1.0"
 description = "Quick reminders of how to write commands from different pacakges"
 readme = "README.md"
