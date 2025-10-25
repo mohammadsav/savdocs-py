@@ -13,7 +13,7 @@ authors = [
   { name = "Mohammad Savarmand" }
 ]
 dependencies = [
-
+"polars"
 ]
 
 [project.urls]

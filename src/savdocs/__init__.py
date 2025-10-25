@@ -1,4 +1,4 @@
-from .pl import gb
+from . import pl
 
-__all__ = ["gb"]
+__all__ = ["pl"]
 __version__ = "0.1.0"
